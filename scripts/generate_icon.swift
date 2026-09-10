@@ -2,16 +2,46 @@ import AppKit
 import Foundation
 
 let output = CommandLine.arguments.count > 1 ? CommandLine.arguments[1] : "ProjectDock-1024.png"
-let size = NSSize(width: 1024, height: 1024)
-let image = NSImage(size: size)
+let width = 1024
+let height = 1024
 
-image.lockFocus()
-defer { image.unlockFocus() }
-
-guard let context = NSGraphicsContext.current else {
-    fatalError("Could not create drawing context")
+func strokeLine(_ points: [NSPoint], width: CGFloat, color: NSColor) {
+    let path = NSBezierPath()
+    path.lineWidth = width
+    path.lineCapStyle = .round
+    path.lineJoinStyle = .round
+    path.move(to: points[0])
+    for point in points.dropFirst() { path.line(to: point) }
+    color.setStroke()
+    path.stroke()
 }
-context.imageInterpolation = .high
+
+guard let bitmap = NSBitmapImageRep(
+    bitmapDataPlanes: nil,
+    pixelsWide: width,
+    pixelsHigh: height,
+    bitsPerSample: 8,
+    samplesPerPixel: 4,
+    hasAlpha: true,
+    isPlanar: false,
+    colorSpaceName: .deviceRGB,
+    bitmapFormat: [],
+    bytesPerRow: 0,
+    bitsPerPixel: 0
+) else {
+    fatalError("Could not create bitmap")
+}
+
+guard let graphicsContext = NSGraphicsContext(bitmapImageRep: bitmap) else {
+    fatalError("Could not create graphics context")
+}
+
+NSGraphicsContext.saveGraphicsState()
+NSGraphicsContext.current = graphicsContext
+graphicsContext.imageInterpolation = .high
+
+NSColor.clear.setFill()
+NSRect(x: 0, y: 0, width: width, height: height).fill()
 
 let backgroundRect = NSRect(x: 74, y: 74, width: 876, height: 876)
 let background = NSBezierPath(roundedRect: backgroundRect, xRadius: 220, yRadius: 220)
@@ -33,17 +63,6 @@ terminal.fill()
 NSColor.white.withAlphaComponent(0.18).setStroke()
 terminal.lineWidth = 5
 terminal.stroke()
-
-func strokeLine(_ points: [NSPoint], width: CGFloat, color: NSColor) {
-    let path = NSBezierPath()
-    path.lineWidth = width
-    path.lineCapStyle = .round
-    path.lineJoinStyle = .round
-    path.move(to: points[0])
-    for point in points.dropFirst() { path.line(to: point) }
-    color.setStroke()
-    path.stroke()
-}
 
 let white = NSColor(calibratedWhite: 0.96, alpha: 1)
 let soft = NSColor(calibratedRed: 0.87, green: 0.84, blue: 0.95, alpha: 1)
@@ -68,11 +87,12 @@ for (index, x) in [350.0, 462.0, 574.0].enumerated() {
     tile.fill()
 }
 
-guard let tiff = image.tiffRepresentation,
-      let bitmap = NSBitmapImageRep(data: tiff),
-      let png = bitmap.representation(using: .png, properties: [:]) else {
-    fatalError("Could not encode icon")
+graphicsContext.flushGraphics()
+NSGraphicsContext.restoreGraphicsState()
+
+guard let png = bitmap.representation(using: .png, properties: [:]) else {
+    fatalError("Could not encode PNG icon")
 }
 
-try png.write(to: URL(fileURLWithPath: output))
+try png.write(to: URL(fileURLWithPath: output), options: .atomic)
 print("Wrote \(output)")
