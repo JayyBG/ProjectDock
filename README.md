@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/ProjectDock-logo.png" width="150" alt="ProjectDock icon">
+  <img src="assets/ProjectDock-logo.svg" width="150" alt="ProjectDock icon">
 </p>
 
 <h1 align="center">ProjectDock</h1>
@@ -45,11 +45,12 @@
 ## Install
 
 1. Open the [latest release](https://github.com/JayyBG/ProjectDock/releases/latest).
-2. Download `ProjectDock-macOS.zip`.
-3. Unzip it and move `ProjectDock.app` to your Applications folder.
-4. Open ProjectDock.
+2. Download `ProjectDock-v0.1.0.dmg` (or the newest `.dmg`).
+3. Open the disk image.
+4. Drag **ProjectDock** onto the **Applications** shortcut.
+5. Eject the ProjectDock disk image and launch ProjectDock from Applications.
 
-The downloadable build is ad-hoc signed but is not Apple-notarized yet. If macOS blocks the first launch, right-click **ProjectDock.app** and choose **Open**.
+The downloadable build is ad-hoc signed but is not Apple-notarized yet. If macOS blocks the first launch, right-click **ProjectDock** in Applications and choose **Open**.
 
 ## Project detection
 
@@ -88,6 +89,10 @@ You can also run it directly with Swift Package Manager:
 ```bash
 swift run ProjectDock
 ```
+
+## Releases
+
+GitHub Actions builds both Apple Silicon and Intel versions, combines them into a universal macOS binary, creates `ProjectDock.app`, ad-hoc signs it, and packages it into a drag-to-Applications `.dmg`. A new release is published whenever `VERSION` is changed to a version that does not already have a GitHub release.
 
 ## Roadmap
 
