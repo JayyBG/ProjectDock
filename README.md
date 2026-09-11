@@ -15,7 +15,7 @@
   ·
   <a href="#features">Features</a>
   ·
-  <a href="#build-from-source">Build from source</a>
+  <a href="#privacy">Privacy</a>
 </p>
 
 ## Preview
@@ -30,17 +30,15 @@
 
 ## Features
 
-- Native SwiftUI macOS app with a menu-bar companion
-- Add and remove local project folders
-- Automatically detects project names from `package.json`
-- Detects Xcode projects and workspaces
-- Detects the Git `origin` repository URL
-- Detects common `npm run dev` / `npm start` commands
-- Opens projects in Visual Studio Code, Xcode, Cursor, Zed, Finder, or Terminal
-- Starts and stops a per-project development command
-- Monitors a configured localhost port and opens it directly
-- Recently opened projects float to the top
-- Stores everything locally — no account, backend, analytics, or telemetry
+- Keep your local projects in a fast menu-bar launcher
+- Open projects in Visual Studio Code, Xcode, Cursor, Zed, Finder, or Terminal
+- Start and stop a saved development command for each project
+- Open the local dev server for a configured localhost port
+- Jump to a project's GitHub repository when one is set
+- Manage names, folders, editors, commands, ports, and repository links in one native window
+- Automatically pre-fill useful details when adding a folder
+- Keep recently opened projects near the top
+- Store everything locally, with no account or cloud sync required
 
 ## Install
 
@@ -52,47 +50,21 @@
 
 The downloadable build is ad-hoc signed but is not Apple-notarized yet. If macOS blocks the first launch, right-click **ProjectDock** in Applications and choose **Open**.
 
-## Project detection
+## How it works
 
-When you add a folder, ProjectDock performs lightweight local detection and pre-fills what it can. Everything can still be changed from **Manage**.
+Add a project folder once, then launch it from the menu bar whenever you need it. ProjectDock can keep a preferred editor, terminal command, repository link, and localhost port for each project.
 
-Each project can contain:
+When you add a folder, ProjectDock can pre-fill useful details such as:
 
-- Display name
-- Local folder path
-- Preferred editor
-- Start command
-- Repository URL
-- Optional localhost port
-
-Start commands run with `/bin/zsh -lc` from the project's root folder.
+- Project name from `package.json`
+- Xcode project or workspace
+- Git `origin` repository URL
+- Common development commands such as `npm run dev` or `npm start`
 
 ## Requirements
 
 - macOS 13 Ventura or newer
 - Apple Silicon or Intel Mac
-
-## Build from source
-
-Clone the repository and open `Package.swift` in Xcode:
-
-```bash
-git clone https://github.com/JayyBG/ProjectDock.git
-cd ProjectDock
-open Package.swift
-```
-
-Select the **ProjectDock** scheme, choose **My Mac**, and press **Run**.
-
-You can also run it directly with Swift Package Manager:
-
-```bash
-swift run ProjectDock
-```
-
-## Releases
-
-GitHub Actions builds both Apple Silicon and Intel versions, combines them into a universal macOS binary, creates `ProjectDock.app`, ad-hoc signs it, and packages it into a drag-to-Applications `.dmg`. A new release is published whenever `VERSION` is changed to a version that does not already have a GitHub release.
 
 ## Roadmap
 
@@ -111,15 +83,7 @@ GitHub Actions builds both Apple Silicon and Intel versions, combines them into 
 
 ## Privacy
 
-ProjectDock has no account, analytics, cloud backend, or telemetry. Project metadata stays on your Mac in:
-
-```text
-~/Library/Application Support/ProjectDock/projects.json
-```
-
-## Contributing
-
-Contributions and ideas are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
+ProjectDock has no account, analytics, cloud backend, or telemetry. Your project metadata stays on your Mac.
 
 ## License
 
